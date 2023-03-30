@@ -10,24 +10,32 @@
 </head>
 
 <body>
-    <div class="container-fluid ">
-        <!-- Landing Page -->
-        <div class="container bg-dark d-grid gap-2 position-absolute top-50 start-50 translate-middle p-5 first-container bg-transparent">
-            <h1 class="game-name mx-auto text-light mb-2 bg-transparent" id="black-jack">Black Jack</h1>
-            <a id="play-game-btn" href="#" class="btn btn-primary start-btn" role="button" data-bs-toggle="button">Play Game</a>
-            <a id="leaderboard-btn" href="#" class="btn btn-primary leaderboards-btn" role="button" data-bs-toggle="button">Leader Boards</a>
-            <a id="credits-btn" href="#" class="btn btn-primary credits-btn" role="button" data-bs-toggle="button">Credits</a>
+    <!-- Landing Page -->
+    <div id="landing-page" class="container-fluid bg-dark d-grid gap-2 d-flex justify-content-center align-items-center flex-column p-5 first-container bg-transparent">
+        <div class="poker-chips">
+            <img src="./resource/white-chip.png" alt="">
         </div>
-        <!-- Game Page -->
-        <div class="container bg-dark d-grid gap-2 position-absolute top-50 start-50 translate-middle p-5 card second-container visually-hidden">
-            <h1 class="game-name mx-auto text-light bg-dark mb-2"id="black-jack">Black Jack</h1>
-            <div class="input-group mb-3">
-                <div class="input-group-prepend bg-dark">
-                  <button class="btn  btn-dark" type="button">Start Game</button>
-                </div>
-                <input type="text" class="form-control col-xs-3" placeholder=" Type your user name here.." aria-label="" aria-describedby="basic-addon1">
-              </div>
+        <div>
+            <h1 id="black-jack" class="game-name mx-auto mb-2 bg-transparent">Black Jack</h1>
         </div>
+
+        <div id="title-btn">
+            <a id="play-game-btn" href="#" class="btn btn-primary start-btn w-25" role="button" data-bs-toggle="button">Play Game</a>
+            <a id="leaderboard-btn" href="#" class="btn btn-primary leaderboards-btn w-25" role="button" data-bs-toggle="button">Leader Boards</a>
+            <a id="credits-btn" href="#" class="btn btn-primary credits-btn w-25" role="button" data-bs-toggle="button">Credits</a>
+        </div>
+    </div>
+
+    <!-- Game Page -->
+    <div class="container bg-dark d-grid gap-2 position-absolute top-50 start-50 translate-middle p-5 card second-container visually-hidden">
+        <h1 class="game-name mx-auto text-light bg-dark mb-2"id="black-jack">Black Jack</h1>
+
+        <div class="input-group mb-3">
+            <div class="input-group-prepend bg-dark">
+                <button class="btn  btn-dark" type="button">Start Game</button>
+            </div>
+            <input type="text" class="form-control col-xs-3" placeholder=" Type your user name here.." aria-label="" aria-describedby="basic-addon1">
+            </div>
     </div>
 </body>
 </html>
