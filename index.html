@@ -19,7 +19,7 @@
 
 <body>
     <!-- Landing Page -->
-    <div id="landing-page" class="container-fluid bg-dark d-grid gap-2 d-flex justify-content-center align-items-center flex-column p-5 bg-transparent visually-hidden">
+    <div id="landing-page" class="container-fluid bg-dark d-grid gap-2 d-flex justify-content-center align-items-center flex-column p-5 bg-transparent page">
         
         <div class="poker-chips">
             <img src="./resource/white-chip.png" alt="">
@@ -31,25 +31,25 @@
         </div>
 
         <div id="title-btn">
-            <a id="play-game-btn" href="#" class="btn btn-primary w-25" role="button" data-bs-toggle="button">Play Game</a>
-            <a id="leaderboard-btn" href="#" class="btn btn-primary w-25" role="button" data-bs-toggle="button">Leader Boards</a>
-            <a id="credits-btn" href="#" class="btn btn-primary w-25" role="button" data-bs-toggle="button">Credits</a>
+            <a id="play-game-btn" href="#game-page" class="btn btn-primary w-25" role="button" data-bs-toggle="button" onclick="navigate('game-page')">Play Game</a>
+            <a id="leaderboard-btn" href="#" class="btn btn-primary w-25" role="button" data-bs-toggle="button" onclick="navigate('leaderboards')">Leader Boards</a>
+            <a id="credits-btn" href="#" class="btn btn-primary w-25" role="button" data-bs-toggle="button" onclick="navigate('credits')">Credits</a>
         </div>
     </div>
 
     <!-- Game Page -->
-    <div id="game-page" class="container-fluid d-flex gap-2 flex-column p-5 mx-auto position-absolute top-50 start-50 translate-middle visually-hidden">
+    <div id="game-page" class="container-fluid d-flex gap-2 flex-column p-5 mx-auto position-absolute top-50 start-50 translate-middle visually-hidden page">
         <h1 class="game-name mx-auto text-light mb-2 mt-5 p-5"id="black-jack">Black Jack</h1>
 
         <div class="input-group" >
-            <div class=" d-flex row mx-auto" id="start-page">
+            <div class=" row mx-auto" id="start-page">
                 <input type="text" class="form-control text-center mb-3" placeholder=" User Name" aria-label="" aria-describedby="basic-addon1">
-                <div class="btn  btn-warning " type="button" id="start-btn">Start Game</div>
+                <div class="btn  btn-warning " type="button" id="start-btn" onclick="navigate('game-table')">Start Game</div>
             </div>
         </div>
     </div>
     <!-- Game Table -->
-    <div id="game-table" class="container-fluid">
+    <div id="game-table" class="container-fluid visually-hidden page">
         <center><table>
             <tr><td>
             <div style="position: relative; border: thick solid #660; background-color: #280; width: 579px; height:500px">

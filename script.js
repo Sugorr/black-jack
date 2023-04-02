@@ -222,3 +222,26 @@ function stand() {
 }
 
 onload=setup;
+
+
+// navigation buttons //
+
+window.history.replaceState({ page: 'landing-page' }, 'landing-page', '#landing-page');
+function updateContent(pageName) {
+   const pages = document.getElementsByClassName('page');
+   for (let p of pages) {
+   p.classList.add('visually-hidden');
+   }
+      const currentPage = document.getElementById(pageName);
+      currentPage.classList.remove('visually-hidden');
+}
+function navigate(pageName) {
+   window.history.pushState({ page: pageName }, pageName, `#${pageName}`);
+   updateContent(pageName);
+}
+window.addEventListener('popstate', function(e) {
+   if (e.state) {
+      updateContent(e.state.page);
+   }
+});
+                   
