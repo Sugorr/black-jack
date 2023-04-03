@@ -71,11 +71,9 @@ const newGameBtn = document.getElementById('btn-newgame');
 newGameBtn.addEventListener('click', startNewGame());
 
 function startNewGame(){
-   fetch('https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1')
-   .then(response => response.json())
-   .then(data => {
-      deckId = data.deck_id;
-   });
+   cardCount = 0;
+   playerScore = 0;
+   dealerScore = 0;
 
    const dealerContainer = document.getElementById('player-cards');
    const dContainerCard = dealerContainer.getElementsByClassName('container-card');
@@ -89,15 +87,23 @@ function startNewGame(){
       }
    }
 
-   cardCount = 0;
-   playerScore = 0;
-   dealerScore = 0;
+   fetch('https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1')
+   .then(response => response.json())
+   .then(data => {
+      deckId = data.deck_id;
+   });
+
 }
 
 
 // check winning state
 function checkWin(){
-   console.log('Won')
+   if (playerScore > 21){
+      console.log('You Lost')
+   } else if (playerScore > 21){
+      console.log('You Lost')
+   }
+   
 }
 
 
@@ -112,6 +118,7 @@ function updateContent(pageName) {
       const currentPage = document.getElementById(pageName);
       currentPage.classList.remove('visually-hidden');
 }
+
 function navigate(pageName) {
    window.history.pushState({ page: pageName }, pageName, `#${pageName}`);
    updateContent(pageName);
