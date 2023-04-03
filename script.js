@@ -1,33 +1,20 @@
 let deckId;
-
 let playerScore = 0;
 let dealerScore = 0;
+let cardCount = 0;
 
-newCard();
 
+startNewGame();
 
 // get and set the Play Button in Title Screen
 const playGameButton = document.getElementById('play-game-btn');
-playGameButton.addEventListener('click', function startNewGame() {
-   // Hide the landing page and show the game page
-   const landingPage = document.getElementById('landing-page');
-   landingPage.classList.add('visually-hidden');
-   const gamePage = document.getElementById('game-page');
-   gamePage.classList.remove('visually-hidden');
-   addImgTest();
-   addImgTest();
+playGameButton.addEventListener('click', function() {
+   addImgTest()
+   addImgTest()
 });
 
-function newCard(){
-   fetch('https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1')
-   .then(response => response.json())
-   .then(data => {
-      deckId = data.deck_id;
-   });
-}
 
 const  hitBtn = document.getElementById('btn-hit');
-let cardCount = 0;
 
 hitBtn.addEventListener('click', function(){
    if (cardCount < 3){
@@ -81,11 +68,22 @@ function addImgTest(){
 // new game button function
 const newGameBtn = document.getElementById('btn-newgame');
 
-newGameBtn.addEventListener('click', function(){
+newGameBtn.addEventListener('click', startNewGame());
+
+function startNewGame(){
+   fetch('https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1')
+   .then(response => response.json())
+   .then(data => {
+      deckId = data.deck_id;
+   });
+
    const dealerContainer = document.getElementById('player-cards');
    const dContainerCard = dealerContainer.getElementsByClassName('container-card');
    for (newImg of dContainerCard){
       const imgId = newImg.querySelectorAll('img');
+      if (imgId === null){
+         break;
+      }
       for (i of imgId){
          newImg.removeChild(i);
       }
@@ -94,7 +92,7 @@ newGameBtn.addEventListener('click', function(){
    cardCount = 0;
    playerScore = 0;
    dealerScore = 0;
-})
+}
 
 
 // check winning state
@@ -122,5 +120,6 @@ function navigate(pageName) {
 window.addEventListener('popstate', function(e) {
    if (e.state) {
       updateContent(e.state.page);
+      startNewGame();
    }
 });
