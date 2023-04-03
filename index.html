@@ -12,7 +12,7 @@
 
 <body>
     <!-- Landing Page -->
-    <div id="landing-page" class="container-fluid bg-dark d-grid gap-2 d-flex justify-content-center align-items-center flex-column p-5 bg-transparent">
+    <div id="landing-page" class="container-fluid bg-dark d-grid gap-2 d-flex justify-content-center align-items-center flex-column p-5 bg-transparent page">
         <!-- poker logo -->
         <div class="poker-chips">
             <img src="./resource/white-chip.png" alt="">
@@ -24,14 +24,14 @@
         </div>
 
         <div id="title-btn">
-            <a id="play-game-btn" href="#" class="btn btn-primary w-25" role="button" data-bs-toggle="button">Play Game</a>
-            <a id="leaderboard-btn" href="#" class="btn btn-primary w-25" role="button" data-bs-toggle="button">Leader Boards</a>
-            <a id="credits-btn" href="#" class="btn btn-primary w-25" role="button" data-bs-toggle="button">Credits</a>
+            <a id="play-game-btn" href="#game-page" class="btn btn-primary w-25" role="button" data-bs-toggle="button"  onclick="navigate('game-page')">Play Game</a>
+            <a id="leaderboard-btn" href="#" class="btn btn-primary w-25" role="button" data-bs-toggle="button" onclick="navigate('leaderboards')">Leader Boards</a>
+            <a id="credits-btn" href="#" class="btn btn-primary w-25" role="button" data-bs-toggle="button" onclick="navigate('credits')">Credits</a>
         </div>
     </div>
 
     <!-- Game Page -->
-    <div id="game-page" class="container-fluid bg-dark d-grid gap-2 d-flex justify-content-center align-items-center flex-column p-5 bg-transparent visually-hidden">
+    <div id="game-page" class="container-fluid bg-dark d-grid gap-2 d-flex justify-content-center align-items-center flex-column p-5 bg-transparent page visually-hidden">
         <div id="upper-layer">
             <div id="scoreboard-sect">
                 <div id="dealer-score">Dealer: <span id="dealer-value">0</span></div>
