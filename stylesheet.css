@@ -177,6 +177,9 @@ html{
     font-size: 24px;
 }
 
+#front-card{
+    display: none;
+}
 
 .front-animation{
     animation-name: front-animation;
@@ -193,7 +196,7 @@ html{
 
 @keyframes front-animation {
     0%{
-        display: none;
+        display: block !important;
         z-index: -1;
         transform: rotateY(180deg);
     }
