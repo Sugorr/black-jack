@@ -34,8 +34,8 @@
     <div id="game-page" class="container-fluid bg-dark d-grid gap-2 d-flex justify-content-center align-items-center flex-column p-5 bg-transparent page visually-hidden">
         <div id="upper-layer">
             <div id="scoreboard-sect">
-                <div id="highest-score">Highest: <span id="highest-value">1010</span></div>
-                <div id="current-score">Current: <span id="current-value">0</span></div>
+                <div id="highest-score">Jayson's Highest: <span id="highest-value">1010</span></div>
+                <div id="current-score">Joaquin: <span id="current-value">0</span></div>
             </div>
             <div id="main-menu-sect">
                 <button onclick="navigate('landing-page')">Menu</button>    
@@ -63,11 +63,18 @@
             </div>
             <div class="cards-score">Card Score: <span id="pc-score">0</span></div>
         </div>
+        <div id="player-info-container">
+            <input type="text" class="form-control w-75 m-1" id="floatingPlayer-name" placeholder="Name">
+            <input type="text" class="form-control w-75 m-1" id="floatingPlayer-bet" placeholder="Bet">
+        </div>
         <ul id="player-control-container">
             <li><button id="btn-hit" class="control-btn">Hit</button></li>
             <li><button id="btn-stand" class="control-btn">Stand</button></li>
             <li><button id="btn-newgame" class="control-btn">New Game</button></li>
         </ul>
+        <div id="condition-container" class="visually-hidden">
+            <p id="who-won"></p>
+        </div>
     </div>
 
     <!-- For Edit -->

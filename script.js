@@ -5,6 +5,8 @@ let playerCardCount = 0;
 let dealerCardCount = 0;
 let gameState = false;
 
+
+
 fetch('https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1')
    .then(response => response.json())
    .then(data => {
@@ -32,6 +34,7 @@ function navigate(pageName) {
 window.addEventListener('popstate', function(e) {
    if (e.state) {
       updateContent(e.state.page);
+      startNewGame();
    }
 });
 
@@ -76,7 +79,9 @@ function drawPlayerCard(){
 
          const pCardScore = document.getElementById('pc-score');
          pCardScore.innerHTML = playerScore;
+
          playerCardCount += 1;
+
    });
 }
 
@@ -121,6 +126,7 @@ function drawDealerCard(show = false){
 
          if (show){
             revealDealerCard();
+            checkWin();
          }
    });
 }
@@ -146,6 +152,9 @@ function revealDealerCard(){
 }
 
 function startNewGame(){
+   conditionVisibility(false);
+   gameState = false
+
    playerCardCount = 0;
    dealerCardCount = 0;
    playerScore = 0;
@@ -194,15 +203,36 @@ function startNewGame(){
 
 // check winning state
 function checkWin(){
-   if (playerScore > 21){
-      console.log('You Lost')
-   } else if (playerScore < 21 && playerScore > dealerScore || playerScore){
-      console.log('You Win')
-   }
+   conditionVisibility(true)
+
+   const winningSection = document.getElementById('who-won');
+   winningSection.innerHTML = getCondition();
 }
 
+function conditionVisibility(show = false){
+   if (show){
+      const winningContainer = document.getElementById('condition-container');
+      winningContainer.classList.remove('visually-hidden');
+      return
+   }
+   const winningContainer = document.getElementById('condition-container');
+   winningContainer.classList.add('visually-hidden');
+}
 
-
+function getCondition() {
+   if (playerScore === dealerScore) {
+     return "It's a tie!";
+   } else if (playerScore > 21) {
+     return "Bust! Dealer wins!";
+   } else if (dealerScore > 21) {
+     return "Dealer busts! Player wins!";
+   } else if (playerScore > dealerScore) {
+     return "Player wins!";
+   } else {
+     return "Dealer wins!";
+   }
+}
+ 
 
 // ====================================================================
 // ====================================================================
@@ -218,22 +248,20 @@ const  hitBtn = document.getElementById('btn-hit');
 hitBtn.addEventListener('click', function(){
    if (playerCardCount < 3 && gameState){
       drawPlayerCard();
-      if (dealerScore < 17){
-         drawDealerCard(true);
-      } else {
-         revealDealerCard();
-      }
-
+      drawDealerCard(true);
    }
 });
 
 const  standBtn = document.getElementById('btn-stand');
 standBtn.addEventListener('click', function(){
-   gameState = false;
-   if (dealerScore < 17){
-      drawDealerCard(true);
-   } else {
-      revealDealerCard();
+   if (gameState){
+      gameState = false;
+      if (dealerScore < 17){
+         drawDealerCard(true);
+      } else {
+         revealDealerCard();
+         checkWin();
+      }
    }
 });
 
@@ -241,7 +269,6 @@ standBtn.addEventListener('click', function(){
 const newGameBtn = document.getElementById('btn-newgame');
 newGameBtn.addEventListener('click', function(){
    if (dealerCardCount >= 2 && playerCardCount >= 2){
-      console.log('ASDAKDKAJDLAKSDkl')
       startNewGame();
    }
 });
