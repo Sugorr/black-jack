@@ -25,8 +25,8 @@
 
         <div id="title-btn">
             <a id="play-game-btn" href="#game-page" class="btn btn-primary w-25" role="button" data-bs-toggle="button"  onclick="navigate('game-page')">Play Game</a>
-            <a id="leaderboard-btn" href="#" class="btn btn-primary w-25" role="button" data-bs-toggle="button" onclick="navigate('leaderboards')">Leader Boards</a>
-            <a id="credits-btn" href="#" class="btn btn-primary w-25" role="button" data-bs-toggle="button" onclick="navigate('credits')">Credits</a>
+            <a id="leaderboard-btn" href="#leaderboards" class="btn btn-primary w-25" role="button" data-bs-toggle="button" onclick="navigate('leaderboards')">Leader Boards</a>
+            <a id="credits-btn" href="#credits" class="btn btn-primary w-25" role="button" data-bs-toggle="button" onclick="navigate('credits')">Credits</a>
         </div>
     </div>
 
@@ -35,7 +35,7 @@
         <div id="upper-layer">
             <div id="scoreboard-sect">
                 <div id="highest-score">Jayson's Highest: <span id="highest-value">1010</span></div>
-                <div id="current-score">Joaquin: <span id="current-value">0</span></div>
+                <div id="current-score"><p id="name-input"> <span id="score-input">  </span></p></div>
             </div>
             <div id="main-menu-sect">
                 <button onclick="navigate('landing-page')">Menu</button>    
@@ -64,21 +64,67 @@
             <div class="cards-score">Card Score: <span id="pc-score">0</span></div>
         </div>
         <div id="player-info-container">
-            <input type="text" class="form-control w-75 m-1" id="floatingPlayer-name" placeholder="Name">
-            <input type="text" class="form-control w-75 m-1" id="floatingPlayer-bet" placeholder="Bet">
+            <input type="submit" id="nameBtn" value="Insert Name" onclick="startGameContainer()" class="control-btn">
+            <span><input type="text" class="form-control w-75 m-1" id="floatingPlayer-name" placeholder="Name" required></span>
         </div>
+        
+        <div id="startGame" style="display: none;">
+            <input type="button" id="btn-newgame" value="Play Game" class="control-btn">
+            <span><input type="number" class="form-control w-75 m-1" id="floatingPlayer-bet" placeholder="Bet" required></span>
+        </div>
+
+
         <ul id="player-control-container">
             <li><button id="btn-hit" class="control-btn">Hit</button></li>
             <li><button id="btn-stand" class="control-btn">Stand</button></li>
-            <li><button id="btn-newgame" class="control-btn">New Game</button></li>
+            <li><button id="btn-reset" class="control-btn" onclick="resetGame()">Reset Game</button></li>
         </ul>
         <div id="condition-container" class="visually-hidden">
             <p id="who-won"></p>
         </div>
     </div>
 
+    <!-- Leaderboards -->
+    <div id="leaderboards" class="container-fluid d-grid gap-2 d-flex justify-content-center align-items-center flex-column p-5 bg-transparent page visually-hidden">
+        <div class="leaderboards-container card">
+            <table id="leaderboard">
+                <thead>
+                    <tr>
+                        <th>Rank</th>
+                        <th>Name</th>
+                        <th>Score</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+            <button type="button" class="btn btn-secondary"onclick="history.back()">Close</button>
+        </div>
+    </div>
+        <!-- Credits -->
+    <div id="credits" class="container-fluid d-grid gap-2 d-flex justify-content-center align-items-center flex-column p-5 bg-transparent page visually-hidden">
+        <div class="credits-container card">
+            <div class="credits">
+                <center><h5>Credits</h5></center>
+            </div>
+            <div class="modal-body">
+                <p>Hello!
+
+                    I'm an independent game developer and I need your support to keep creating great games. Developing games is costly and time-consuming, so I'm asking for donations to help cover the costs and continue making awesome games for you to enjoy. Even a small donation can make a big difference.
+                    
+                    If you're interested in supporting me, please consider making a donation. Also, if you're a company looking to create a private game, I'm available to discuss the possibility of working together. Contact me at [Your Contact Information].
+                    
+                    Thank you for your time and consideration.
+                    <br>
+                    Best regards,
+                    [Your Name]</p>
+            </div>
+            <button type="button" class="btn btn-secondary"onclick="history.back()">Close</button>
+        </div>        
+    </div>
+
     <!-- For Edit -->
     <script type="text/javascript" src="script.js" async></script>
     <!-- For Edit -->
+
 </body>
 </html>
