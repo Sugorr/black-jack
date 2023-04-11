@@ -42,6 +42,13 @@ window.addEventListener('popstate', function(e) {
    }
 });
 
+function startGameContainer() {
+   let playerInfoContainer = document.getElementById("player-info-container");
+   let startGameContainer = document.getElementById("startGame");
+   
+   playerInfoContainer.style.display = "none";
+   startGameContainer.style.display = "block";
+}
 
 // ====================================================================
 // ====================================================================
@@ -219,6 +226,7 @@ function conditionVisibility(show = false){
    if (show){
       const winningContainer = document.getElementById('condition-container');
       winningContainer.classList.remove('visually-hidden');
+      
       return
    }
    const winningContainer = document.getElementById('condition-container');
@@ -237,7 +245,8 @@ function getCondition() {
    } else {
      return "Dealer wins!";
    }
-}
+} 
+
  
 
 // ====================================================================
@@ -246,6 +255,7 @@ function getCondition() {
 // get and set the Play Button in Title Screen
 const playGameButton = document.getElementById('play-game-btn');
 playGameButton.addEventListener('click', function() {
+   
    startNewGame();
 });
 
@@ -267,7 +277,7 @@ standBtn.addEventListener('click', function(){
       } else {
          revealDealerCard();
          checkWin();
-      }
+      } return;
    }
 });
 
@@ -275,6 +285,138 @@ standBtn.addEventListener('click', function(){
 const newGameBtn = document.getElementById('btn-newgame');
 newGameBtn.addEventListener('click', function(){
    if (dealerCardCount >= 2 && playerCardCount >= 2){
+
       startNewGame();
    }
 });
+
+//////////////////////////////////
+////////// reset button //////////
+/////////////////////////////////
+// function resetGame() {
+//    // Reset game variables
+//    playerScore = 0;
+//    dealerScore = 0;
+//    playerCardCount = 0;
+//    dealerCardCount = 0;
+//    gameState = false;
+
+//    // Clear player cards
+//    const playerContainer = document.getElementById('player-cards');
+//    const pContainer = playerContainer.getElementsByClassName('container-card');
+//    for (newImg of pContainer){
+//       const imgId = newImg.querySelectorAll('img');
+//       if (imgId === null){
+//          break;
+//       }
+//       for (i of imgId){
+//          newImg.removeChild(i);
+//       }
+//    }
+
+
+//    // Clear dealer cards
+//    const dealerContainer = document.getElementById('dealer-cards');
+//    const dContainerCard = dealerContainer.getElementsByClassName('container-card');
+//    for (newImg of dContainerCard){
+//       const imgId = newImg.querySelectorAll('img');
+//       if (imgId === null){
+//          break;
+//       }
+//       for (i of imgId){
+//          newImg.removeChild(i);
+//       }
+//    }
+
+//    // Reset player score
+//    const pCardScore = document.getElementById('pc-score');
+//    pCardScore.innerHTML = '0';
+
+//    // Reset dealer score
+//    const dCardScore = document.getElementById('dc-score');
+//    dCardScore.innerHTML = '0';
+
+//    // Show start game container
+//    startGameContainer();
+
+// }
+
+// function init() {
+
+//    // Add event listener to reset button
+//    const resetButton = document.getElementById('btn-reset');
+//    resetButton.addEventListener('click', resetGame);
+// }
+
+// init();
+
+
+
+////////////////////////////////////////////
+//    Storage API for names and bets      //
+////////////////////////////////////////////
+
+
+
+
+
+////////////////////////////////////////////
+//              Leaderboards              //
+////////////////////////////////////////////
+function getLeaderboardData() {
+   const leaderboardData = JSON.parse(localStorage.getItem('leaderboard')) || [];
+   return leaderboardData;
+}
+
+function renderLeaderboard() {
+   const leaderboardData = getLeaderboardData();
+
+   // Sort the array by score in descending order
+   leaderboardData.sort((a, b) => b.score - a.score);
+
+   // Clear the table body before re-rendering
+   document.querySelector('#leaderboard tbody').innerHTML = '';
+
+   // Iterate through the sorted array and dynamically create rows in the table
+   leaderboardData.forEach((player, index) => {
+      const row = document.createElement('tr');
+      const rankCell = document.createElement('td');
+      const nameCell = document.createElement('td');
+      const scoreCell = document.createElement('td');
+
+      rankCell.innerText = index + 1;
+      nameCell.innerText = player.name;
+      scoreCell.innerText = player.score;
+
+      row.appendChild(rankCell);
+      row.appendChild(nameCell);
+      row.appendChild(scoreCell);
+
+      document.querySelector('#leaderboard tbody').appendChild(row);
+   });
+}
+
+function addPlayerToLeaderboard(playerName, playerScore) {
+   const leaderboardData = getLeaderboardData();
+   const newPlayer = {
+      name: playerName,
+      score: playerScore
+   };
+   leaderboardData.push(newPlayer);
+   localStorage.setItem('leaderboard', JSON.stringify(leaderboardData));
+   renderLeaderboard();
+}
+
+const newPlayerForm = document.querySelector('#new-player-form');
+newPlayerForm.addEventListener('submit', event => {
+   event.preventDefault();
+   const playerName = document.querySelector('#name-input').value;
+   const playerScore = document.querySelector('#score-input').value;
+   addPlayerToLeaderboard(playerName, playerScore);
+   newPlayerForm.reset();
+});
+
+// Render the leaderboard on page load
+renderLeaderboard();
+
+
