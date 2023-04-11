@@ -6,12 +6,16 @@ let dealerCardCount = 0;
 let gameState = false;
 
 
+async function drawDeck(){
+   fetch('https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1')
+      .then(response => response.json())
+      .then(async data => {
+         deckId = await data.deck_id;
+   });
+}
 
-fetch('https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1')
-   .then(response => response.json())
-   .then(data => {
-      deckId = data.deck_id;
-});
+drawDeck();
+
 
 // ====================================================================
 // ====================================================================
@@ -46,9 +50,9 @@ function drawPlayerCard(){
    // Draw a card from the deck
    fetch(`https://deckofcardsapi.com/api/deck/${deckId}/draw/?count=1`)
       .then(response => response.json())
-      .then(data => {
-         const newCard = data.cards[0].value + '_of_' + data.cards[0].suit + '.png';
-         const newCardSuit = data.cards[0].suit;
+      .then(async data => {
+         const newCard = await data.cards[0].value + '_of_' + data.cards[0].suit + '.png';
+         const newCardSuit = await data.cards[0].suit;
 
          if (data.cards[0].value === "JACK" || data.cards[0].value === "QUEEN" || data.cards[0].value === "KING"){
             playerScore += 10;
@@ -153,17 +157,18 @@ function revealDealerCard(){
 
 function startNewGame(){
    conditionVisibility(false);
-   gameState = false
-
+   gameState = false;
+   
    playerCardCount = 0;
    dealerCardCount = 0;
    playerScore = 0;
    dealerScore = 0;
 
 
+   // get and deletes all the cards of the PLAYER
    const playerContainer = document.getElementById('player-cards');
-   const pContainer = playerContainer.getElementsByClassName('container-card');
-   for (newImg of pContainer){
+   const pContainerCard = playerContainer.getElementsByClassName('container-card');
+   for (newImg of pContainerCard){
       const imgId = newImg.querySelectorAll('img');
       if (imgId === null){
          break;
@@ -173,6 +178,7 @@ function startNewGame(){
       }
    }
 
+   // get and deletes all the cards of the DEALER
    const dealerContainer = document.getElementById('dealer-cards');
    const dContainerCard = dealerContainer.getElementsByClassName('container-card');
    for (newImg of dContainerCard){
@@ -184,15 +190,14 @@ function startNewGame(){
          newImg.removeChild(i);
       }
    }
-   fetch('https://deckofcardsapi.com/api/deck/new/shuffle/?deck_count=1')
-      .then(response => response.json())
-      .then(data => {
-         deckId = data.deck_id;
-   });
+
+   // draw a new set of cards
+   drawDeck();
+
    // every start, draw 2 cards for player and dealer
    drawPlayerCard();
-   drawDealerCard();
    drawPlayerCard();
+   drawDealerCard();
    drawDealerCard();
 
    // set game state to true
@@ -207,6 +212,7 @@ function checkWin(){
 
    const winningSection = document.getElementById('who-won');
    winningSection.innerHTML = getCondition();
+   gameState = false;
 }
 
 function conditionVisibility(show = false){
@@ -246,9 +252,9 @@ playGameButton.addEventListener('click', function() {
 
 const  hitBtn = document.getElementById('btn-hit');
 hitBtn.addEventListener('click', function(){
-   if (playerCardCount < 3 && gameState){
+   if (gameState){
       drawPlayerCard();
-      drawDealerCard(true);
+      drawDealerCard(true)
    }
 });
 
