@@ -300,7 +300,7 @@ function updateWonBet(){
    if (!tie){
       playerCurrentMoney += (onBetMoney * 2);
    } else {
-      playerCurrentMoney = onBetMoney;
+      playerCurrentMoney += onBetMoney;
       tie = false;
    }
    updateResetBet();
