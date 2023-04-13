@@ -25,7 +25,6 @@
 
         <div id="title-btn">
             <a id="play-game-btn" href="#game-page" class="btn btn-primary w-25" role="button" data-bs-toggle="button"  onclick="navigate('game-page')">Play Game</a>
-            <a id="leaderboard-btn" href="#leaderboards" class="btn btn-primary w-25" role="button" data-bs-toggle="button" onclick="navigate('leaderboards')">Leader Boards</a>
             <a id="credits-btn" href="#credits" class="btn btn-primary w-25" role="button" data-bs-toggle="button" onclick="navigate('credits')">Credits</a>
         </div>
     </div>
@@ -34,8 +33,7 @@
     <div id="game-page" class="container-fluid bg-dark d-grid gap-2 d-flex justify-content-center align-items-center flex-column p-5 bg-transparent page visually-hidden">
         <div id="upper-layer">
             <div id="scoreboard-sect">
-                <div id="highest-score">Jayson's Highest: <span id="highest-value">1010</span></div>
-                <div id="current-score"><p id="name-input"> <span id="score-input">  </span></p></div>
+                <div id="highest-score">Highest Score: <span id="highest-value">0</span></div>
             </div>
             <div id="main-menu-sect">
                 <button onclick="navigate('landing-page')">Menu</button>    
@@ -55,7 +53,7 @@
         <div class="game-splitter"></div>
         <!-- the players section-->
         <div id="player-sect">
-            <div class="sect-title">Player's Hand</div>
+            <div class="sect-title"><span id="sub-name">Player</span>'s Hand</div>
             <div id="player-cards" class="cards-container">
                 <div class="container-card"></div>
                 <div class="container-card"></div>
@@ -63,44 +61,31 @@
             </div>
             <div class="cards-score">Card Score: <span id="pc-score">0</span></div>
         </div>
-        <div id="player-info-container">
-            <input type="submit" id="nameBtn" value="Insert Name" onclick="startGameContainer()" class="control-btn">
-            <span><input type="text" class="form-control w-75 m-1" id="floatingPlayer-name" placeholder="Name" required></span>
-        </div>
-        
-        <div id="startGame" style="display: none;">
-            <input type="button" id="btn-newgame" value="Play Game" class="control-btn">
-            <span><input type="number" class="form-control w-75 m-1" id="floatingPlayer-bet" placeholder="Bet" required></span>
-        </div>
+        <!-- betting section -->
+        <form>
+            <div id="player-info-container">
+                <div>
+                    <p id="current-hand">Bet: $<span id="btn-bet-value">0</span></p>
+                    <input type="submit" id="btn-bet" value="Place Bet" class="control-btn-bet">
+                    <span><input type="number" class="form-control w-75 m-1" id="btn-bet-input" placeholder="Bet" required min="0"></span>
+                </div>
+                <div>
+                    <p id="current-hand" class="px-5">Current Hand: $<span id="money-value">200</span></p>
+                </div>
+            </div>
 
-
-        <ul id="player-control-container">
-            <li><button id="btn-hit" class="control-btn">Hit</button></li>
-            <li><button id="btn-stand" class="control-btn">Stand</button></li>
-            <li><button id="btn-reset" class="control-btn" onclick="resetGame()">Reset Game</button></li>
-        </ul>
+            <ul id="player-control-container">
+                <li><button id="btn-hit" class="control-btn disabled-btn" disabled>Hit</button></li>
+                <li><button id="btn-stand" class="control-btn disabled-btn" disabled>Stand</button></li>
+                <li><button id="btn-reset" class="control-btn disabled-btn" disabled>Reset Game</button></li>
+            </ul>
+        </form>
         <div id="condition-container" class="visually-hidden">
             <p id="who-won"></p>
         </div>
     </div>
 
-    <!-- Leaderboards -->
-    <div id="leaderboards" class="container-fluid d-grid gap-2 d-flex justify-content-center align-items-center flex-column p-5 bg-transparent page visually-hidden">
-        <div class="leaderboards-container card">
-            <table id="leaderboard">
-                <thead>
-                    <tr>
-                        <th>Rank</th>
-                        <th>Name</th>
-                        <th>Score</th>
-                    </tr>
-                </thead>
-                <tbody></tbody>
-            </table>
-            <button type="button" class="btn btn-secondary"onclick="history.back()">Close</button>
-        </div>
-    </div>
-        <!-- Credits -->
+    <!-- Credits -->
     <div id="credits" class="container-fluid d-grid gap-2 d-flex justify-content-center align-items-center flex-column p-5 bg-transparent page visually-hidden">
         <div class="credits-container card">
             <div class="credits">

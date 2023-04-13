@@ -1,9 +1,16 @@
+
 let deckId;
 let playerScore = 0;
 let dealerScore = 0;
 let playerCardCount = 0;
 let dealerCardCount = 0;
 let gameState = false;
+
+let won = false;
+let lost = false;
+let tie = false;
+let playerCurrentMoney = 200;
+let onBetMoney = 0;
 
 
 async function drawDeck(){
@@ -38,17 +45,14 @@ function navigate(pageName) {
 window.addEventListener('popstate', function(e) {
    if (e.state) {
       updateContent(e.state.page);
-      startNewGame();
    }
 });
 
-function startGameContainer() {
-   let playerInfoContainer = document.getElementById("player-info-container");
-   let startGameContainer = document.getElementById("startGame");
-   
-   playerInfoContainer.style.display = "none";
-   startGameContainer.style.display = "block";
-}
+window.addEventListener('load', function() {
+   const highestScore = localStorage.getItem('highest-score');
+   updateHighscore(highestScore);
+});
+
 
 // ====================================================================
 // ====================================================================
@@ -163,13 +167,18 @@ function revealDealerCard(){
 }
 
 function startNewGame(){
+   const highestScore = localStorage.getItem('highest-score');
+   updateHighscore(highestScore);
+   
    conditionVisibility(false);
    gameState = false;
+   won = false;
    
    playerCardCount = 0;
    dealerCardCount = 0;
    playerScore = 0;
    dealerScore = 0;
+   btnBetValue.value = '';
 
 
    // get and deletes all the cards of the PLAYER
@@ -207,16 +216,16 @@ function startNewGame(){
    drawDealerCard();
    drawDealerCard();
 
-   // set game state to true
-   gameState = true;
+   updateResetBet();
 }
 
 
-
-// check winning state
+// =====
+// Check Winning State
+// =====
 function checkWin(){
    conditionVisibility(true)
-
+   
    const winningSection = document.getElementById('who-won');
    winningSection.innerHTML = getCondition();
    gameState = false;
@@ -234,42 +243,145 @@ function conditionVisibility(show = false){
 }
 
 function getCondition() {
+   disableHitStandButton();
    if (playerScore === dealerScore) {
-     return "It's a tie!";
+      won = true;
+      tie = true;
+      updateWonBet();
+      return "It's a tie! The Game Will Continue.";
    } else if (playerScore > 21) {
-     return "Bust! Dealer wins!";
+      won = false;
+      updateResetBet();
+      if (playerCurrentMoney === 0){
+         lost = true;
+         return "Dealer wins! Start A New Game";
+      }
+      return "You're Busted! Dealer wins!";
    } else if (dealerScore > 21) {
-     return "Dealer busts! Player wins!";
+      won = true;
+      updateWonBet();
+      return "Player wins! Dealer busts! The Game Will Continue.";
    } else if (playerScore > dealerScore) {
-     return "Player wins!";
+      won = true;
+      updateWonBet();
+      return "Player wins! The Game Will Continue.";
    } else {
-     return "Dealer wins!";
+      won = false;
+      updateResetBet();
+      if (playerCurrentMoney === 0){
+         lost = true;
+         return "Dealer wins! Start A New Game";
+      }
+      return "Dealer wins!";
    }
 } 
 
- 
+// set the value of bet and current money
+const btnBet = document.getElementById('btn-bet');
+const btnBetInput = document.getElementById('btn-bet-input');
+const btnBetValue = document.getElementById('btn-bet-value');
 
-// ====================================================================
+const moneyValue = document.getElementById('money-value');
+
+function updateMaxBet(){
+   btnBetInput.setAttribute("max", playerCurrentMoney);
+}
+
+function updatePlaceBet(){
+   onBetMoney = btnBetInput.value;
+   playerCurrentMoney -= onBetMoney;
+   btnBetInput.value = 0;
+   moneyValue.innerText = playerCurrentMoney;
+   btnBetValue.innerText = onBetMoney;
+   updateMaxBet();
+}
+
+function updateWonBet(){
+   if (!tie){
+      playerCurrentMoney += (onBetMoney * 2);
+   } else {
+      playerCurrentMoney = onBetMoney;
+      tie = false;
+   }
+   updateResetBet();
+}
+
+function updateResetBet(){
+   onBetMoney = 0;
+   btnBetInput.value = 0;
+   moneyValue.innerText = playerCurrentMoney;
+   btnBetValue.innerText = onBetMoney;
+   updateMaxBet();
+}
+
+function resetMoneyBet(){
+   onBetMoney = 0;
+   playerCurrentMoney = 200;
+   btnBetInput.value = 0;
+   moneyValue.innerText = playerCurrentMoney;
+   btnBetValue.innerText = onBetMoney;
+   updateMaxBet();
+}
+
+function enableBetButtons(){
+   const controlBtn = document.querySelectorAll('.control-btn');
+   for (btn of controlBtn){
+      btn.disabled = true;
+      btn.classList.add('disabled-btn');
+   }
+   btnBet.disabled = false;
+   btnBet.classList.remove('disabled-btn');
+   btnBetInput.disabled = false;
+}
+
+function disableHitStandButton(){
+   hitBtn.disabled = true;
+   hitBtn.classList.add('disabled-btn');
+   standBtn.disabled = true;
+   standBtn.classList.add('disabled-btn');
+}
+
+// storage api usage ===
+function updateHighscore(highscore){
+   const scoreText = document.getElementById('highest-value');
+   scoreText.textContent = `${highscore}`;
+}
+
+function getScore(){
+   const highscoreTemp = localStorage.getItem('highest-score');
+   console.log(highscoreTemp);;
+   const scoreTemp = playerCurrentMoney;
+   if (scoreTemp > highscoreTemp){
+      localStorage.setItem('highest-score', scoreTemp);
+      updateHighscore(scoreTemp);
+   }
+}
+
 // ====================================================================
 // ====================================================================
 // get and set the Play Button in Title Screen
 const playGameButton = document.getElementById('play-game-btn');
 playGameButton.addEventListener('click', function() {
-   
+   playerCurrentMoney = 200;
    startNewGame();
 });
 
-
+// hit button function
 const  hitBtn = document.getElementById('btn-hit');
 hitBtn.addEventListener('click', function(){
    if (gameState){
       drawPlayerCard();
       drawDealerCard(true)
+      newGameBtn.disabled = false;
+      newGameBtn.classList.remove('disabled-btn');
    }
 });
 
+// stand button function
 const  standBtn = document.getElementById('btn-stand');
 standBtn.addEventListener('click', function(){
+   newGameBtn.disabled = false;
+   newGameBtn.classList.remove('disabled-btn');
    if (gameState){
       gameState = false;
       if (dealerScore < 17){
@@ -282,141 +394,39 @@ standBtn.addEventListener('click', function(){
 });
 
 // new game button function
-const newGameBtn = document.getElementById('btn-newgame');
+const newGameBtn = document.getElementById('btn-reset');
 newGameBtn.addEventListener('click', function(){
+   getScore();
+   if (playerCurrentMoney === 0){
+      alert('NEW GAME');
+      navigate('landing-page');
+   }
    if (dealerCardCount >= 2 && playerCardCount >= 2){
-
       startNewGame();
+      enableBetButtons();
    }
 });
 
-//////////////////////////////////
-////////// reset button //////////
-/////////////////////////////////
-// function resetGame() {
-//    // Reset game variables
-//    playerScore = 0;
-//    dealerScore = 0;
-//    playerCardCount = 0;
-//    dealerCardCount = 0;
-//    gameState = false;
-
-//    // Clear player cards
-//    const playerContainer = document.getElementById('player-cards');
-//    const pContainer = playerContainer.getElementsByClassName('container-card');
-//    for (newImg of pContainer){
-//       const imgId = newImg.querySelectorAll('img');
-//       if (imgId === null){
-//          break;
-//       }
-//       for (i of imgId){
-//          newImg.removeChild(i);
-//       }
-//    }
-
-
-//    // Clear dealer cards
-//    const dealerContainer = document.getElementById('dealer-cards');
-//    const dContainerCard = dealerContainer.getElementsByClassName('container-card');
-//    for (newImg of dContainerCard){
-//       const imgId = newImg.querySelectorAll('img');
-//       if (imgId === null){
-//          break;
-//       }
-//       for (i of imgId){
-//          newImg.removeChild(i);
-//       }
-//    }
-
-//    // Reset player score
-//    const pCardScore = document.getElementById('pc-score');
-//    pCardScore.innerHTML = '0';
-
-//    // Reset dealer score
-//    const dCardScore = document.getElementById('dc-score');
-//    dCardScore.innerHTML = '0';
-
-//    // Show start game container
-//    startGameContainer();
-
-// }
-
-// function init() {
-
-//    // Add event listener to reset button
-//    const resetButton = document.getElementById('btn-reset');
-//    resetButton.addEventListener('click', resetGame);
-// }
-
-// init();
-
-
-
-////////////////////////////////////////////
-//    Storage API for names and bets      //
-////////////////////////////////////////////
-
-
-
-
-
-////////////////////////////////////////////
-//              Leaderboards              //
-////////////////////////////////////////////
-function getLeaderboardData() {
-   const leaderboardData = JSON.parse(localStorage.getItem('leaderboard')) || [];
-   return leaderboardData;
-}
-
-function renderLeaderboard() {
-   const leaderboardData = getLeaderboardData();
-
-   // Sort the array by score in descending order
-   leaderboardData.sort((a, b) => b.score - a.score);
-
-   // Clear the table body before re-rendering
-   document.querySelector('#leaderboard tbody').innerHTML = '';
-
-   // Iterate through the sorted array and dynamically create rows in the table
-   leaderboardData.forEach((player, index) => {
-      const row = document.createElement('tr');
-      const rankCell = document.createElement('td');
-      const nameCell = document.createElement('td');
-      const scoreCell = document.createElement('td');
-
-      rankCell.innerText = index + 1;
-      nameCell.innerText = player.name;
-      scoreCell.innerText = player.score;
-
-      row.appendChild(rankCell);
-      row.appendChild(nameCell);
-      row.appendChild(scoreCell);
-
-      document.querySelector('#leaderboard tbody').appendChild(row);
-   });
-}
-
-function addPlayerToLeaderboard(playerName, playerScore) {
-   const leaderboardData = getLeaderboardData();
-   const newPlayer = {
-      name: playerName,
-      score: playerScore
-   };
-   leaderboardData.push(newPlayer);
-   localStorage.setItem('leaderboard', JSON.stringify(leaderboardData));
-   renderLeaderboard();
-}
-
-const newPlayerForm = document.querySelector('#new-player-form');
-newPlayerForm.addEventListener('submit', event => {
-   event.preventDefault();
-   const playerName = document.querySelector('#name-input').value;
-   const playerScore = document.querySelector('#score-input').value;
-   addPlayerToLeaderboard(playerName, playerScore);
-   newPlayerForm.reset();
+btnBet.addEventListener('click', function(){
+   if (btnBetInput.value <= playerCurrentMoney && btnBetInput.value > 0){
+      updatePlaceBet();
+      // enable play buttons and disable bet-btn after betting
+      const controlBtn = document.querySelectorAll('.control-btn');
+      for (btn of controlBtn){
+         btn.disabled = false;
+         btn.classList.remove('disabled-btn');
+      }
+      newGameBtn.disabled = true;
+      newGameBtn.classList.add('disabled-btn');
+      btnBet.disabled = true;
+      btnBet.classList.add('disabled-btn');
+      btnBetInput.disabled = true;
+      gameState = true;
+   }
 });
 
-// Render the leaderboard on page load
-renderLeaderboard();
+// ====================================================================
+// ====================================================================
+
 
 
