@@ -87,23 +87,34 @@
 
     <!-- Credits -->
     <div id="credits" class="container-fluid d-grid gap-2 d-flex justify-content-center align-items-center flex-column p-5 bg-transparent page visually-hidden">
-        <div class="credits-container card">
+        <div class="credits-container card bg-light p-4">
             <div class="credits">
-                <center><h5>Credits</h5></center>
+               <h5 class="d-flex justify-content-center align-items-center">Message from Developers</h5>
             </div>
-            <div class="modal-body">
+            <div id="msg-credits"class="card-body">
                 <p>Hello!
 
-                    I'm an independent game developer and I need your support to keep creating great games. Developing games is costly and time-consuming, so I'm asking for donations to help cover the costs and continue making awesome games for you to enjoy. Even a small donation can make a big difference.
-                    
-                    If you're interested in supporting me, please consider making a donation. Also, if you're a company looking to create a private game, I'm available to discuss the possibility of working together. Contact me at [Your Contact Information].
-                    
+                    We need your support to keep creating great games. Developing games is costly and time-consuming, so we are asking for donations to help cover the costs and continue making awesome games for you to enjoy. Even a small donation can make a big difference.
+                    <br><br>
+                    If you're interested in supporting us, please consider making a donation. Also, if you're a company looking to create a private game, We are available to discuss the possibility of working together. Contact us at .
+                    <br><br>
                     Thank you for your time and consideration.
-                    <br>
-                    Best regards,
-                    [Your Name]</p>
+                    <br><br>
+                    Best regards, <br><br>
+                    Joaquin Reynera, Game Developer <br> Jayson Herrera, Game Developer</p>
             </div>
-            <button type="button" class="btn btn-secondary"onclick="history.back()">Close</button>
+            <div class="d-flex justify-content-center align-items-center">
+            <button id="credits-donation-btn"type="button" class="btn btn-secondary m-5"onclick="navigate('donation')">Donate</button>
+            <button id="credits-close-btn"type="button" class="btn btn-secondary"onclick="history.back()">Close</button>
+            </div>
+        </div>        
+    </div>
+    <!-- Donation  -->
+    <div id="donation" class="container-fluid d-grid gap-2 d-flex justify-content-center align-items-center flex-column p-5 bg-transparent page visually-hidden">
+        <div class="donation-container card bg-light p-5">
+            <img src="resource/donate.png" alt="DonateQr" class="card img-thumbnail mb-5" id="qr">
+            <button id="credits-close-btn"type="button" class="btn btn-secondary"onclick="history.back()">Close</button>
+            
         </div>        
     </div>
 

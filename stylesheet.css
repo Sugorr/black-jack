@@ -12,49 +12,26 @@ html{
 }
 
 /* LANDING PAGE */
-#landing-page{
-    background-image: url(./resource/title-screen.jpg);
-    background-size: 100vw 100vh;
-    background-repeat: no-repeat;
-    height: 100vh;
-}
-#game-page{
-    background-image: url(./resource/title-screen.jpg);
-    background-size: 100vw 100vh;
-    background-repeat: no-repeat;
-    height: 100vh;
-}
 
-#leaderboards{
+#game-page, #credits, #landing-page, #donation{
     background-image: url(./resource/title-screen.jpg);
     background-size: 100vw 100vh;
     background-repeat: no-repeat;
     height: 100vh;
 }
 
-.leaderboards-container {
-    text-align: center;
-    justify-content: center;
-    text-align: center;
-   
-    height: 70%;
-    width: 30%;
-
-
+#qr {
+    height: 20rem;
+    width: 20rem;
 }
 
-#credits{
-    background-image: url(./resource/title-screen.jpg);
-    background-size: 100vw 100vh;
-    background-repeat: no-repeat;
-    height: 100vh;
-}
 
 .credits-container {
-    justify-content: center;
-    padding: 30px;
-    height: 60%;
-    width: 70%;
+    width: 50vw;
+    border-radius: 15px 32px 15px 32px;
+    border: 3px solid white;
+    background-color: #ea795600;
+    box-shadow: inset 0 0 30px #ea7856,  0px 0px 12px #b3563a;
 
 
 }
@@ -147,6 +124,37 @@ html{
     background-color: #ea795600;
     box-shadow: inset 0 0 300px #ea7856,  0px 0px 12px #b3563a;
 }
+
+#credits-donation-btn{
+    border-radius: 15px 32px 15px 32px;
+    border: 3px solid white;
+    background-color: #ea795600;
+    box-shadow: inset 0 0 300px #ea7856,  0px 0px 12px #b3563a;
+}
+
+#credits-donation-btn:hover{
+    border: 3px solid rgba(255, 255, 255, 0);
+    border-radius: 135px 15px 135px 15px;
+    transition: 0.3s ease;
+    font-size: 17px;
+    text-decoration-style: none;
+}
+#credits-close-btn{
+    border-radius: 15px 32px 15px 32px;
+    border: 3px solid white;
+    background-color: #ea795600;
+    box-shadow: inset 0 0 300px #ea7856,  0px 0px 12px #b3563a;
+}
+
+#credits-close-btn:hover{
+    border: 3px solid rgba(255, 255, 255, 0);
+    border-radius: 135px 15px 135px 15px;
+    transition: 0.3s ease;
+    font-size: 17px;
+    text-decoration-style: none;
+}
+
+
 
 /* GAME PAGE*/
 
