@@ -348,7 +348,7 @@ function updateHighscore(highscore){
 }
 
 function getScore(){
-   const highscoreTemp = localStorage.getItem('highest-score');
+   const highscoreTemp = localStorage.getItem('highest-score') || 0;
    console.log(highscoreTemp);;
    const scoreTemp = playerCurrentMoney;
    if (scoreTemp > highscoreTemp){
